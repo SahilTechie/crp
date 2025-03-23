@@ -17,147 +17,232 @@ export default function ComplaintForm() {
   const [complaintId, setComplaintId] = useState("")
   const [aiValidation, setAiValidation] = useState(null)
   const [validationStep, setValidationStep] = useState(null)
+  const [isCopied, setIsCopied] = useState(false)
 
   const categories = [
     {
       id: "education",
       name: "📚 Education",
-      organizations: ["School Board", "University Grants Commission", "Education Department"],
+      organizations: [
+        "School Board",
+        "University Grants Commission",
+        "Education Department",
+        "National Education Policy Board",
+        "State Education Council",
+        "Private Schools Association",
+        "Public Schools Authority",
+        "Higher Education Commission",
+        "Vocational Training Institute",
+        "Teacher Training Academy",
+      ],
     },
     {
       id: "municipality",
-      name: "🏙️ Municipal Services",
-      organizations: ["City Council", "Municipal Corporation", "Town Planning"],
+      name: "🏙 Municipal Services",
+      organizations: [
+        "City Council",
+        "Municipal Corporation",
+        "Town Planning",
+        "Urban Development Authority",
+        "Sanitation Department",
+        "Street Lighting Authority",
+        "Parks and Recreation Department",
+        "Public Works Department",
+        "Waste Management Board",
+        "Zoning and Land Use Authority",
+      ],
     },
     {
       id: "infrastructure",
       name: "🚧 Public Infrastructure",
-      organizations: ["Public Works", "Highway Authority", "Urban Development"],
+      organizations: [
+        "Public Works",
+        "Highway Authority",
+        "Urban Development",
+        "Bridge Construction Authority",
+        "Railway Infrastructure Board",
+        "Airport Development Authority",
+        "Seaport Authority",
+        "Smart City Development Board",
+        "Rural Infrastructure Development",
+        "Urban Transport Authority",
+      ],
     },
     {
       id: "water",
       name: "🚰 Water Supply & Sanitation",
-      organizations: ["Water Board", "Municipal Water Department", "Rural Water Supply"],
+      organizations: [
+        "Water Board",
+        "Municipal Water Department",
+        "Rural Water Supply",
+        "Irrigation Department",
+        "Water Conservation Authority",
+        "Flood Control Board",
+        "Water Quality Monitoring Agency",
+        "Sewage Treatment Authority",
+        "Rainwater Harvesting Board",
+        "Groundwater Management Authority",
+      ],
     },
     {
       id: "electricity",
       name: "💡 Electricity & Power Supply",
-      organizations: ["Electricity Board", "Power Distribution Company", "Energy Department"],
-    },
-    {
-      id: "police",
-      name: "🚔 Police & Law Enforcement",
-      organizations: ["Police Department", "Traffic Police", "Cyber Cell"],
-    },
-    {
-      id: "traffic",
-      name: "🚗 Traffic & Transport Issues",
-      organizations: ["Traffic Department", "Public Transport Authority", "Road Safety"],
+      organizations: [
+        "Electricity Board",
+        "Power Distribution Company",
+        "Energy Department",
+        "Renewable Energy Authority",
+        "Solar Power Development Board",
+        "Wind Energy Corporation",
+        "Hydropower Authority",
+        "Nuclear Energy Commission",
+        "Electric Grid Management Authority",
+        "Energy Efficiency Board",
+      ],
     },
     {
       id: "healthcare",
-      name: "🏥 Healthcare Services",
-      organizations: ["Public Hospital", "Health Department", "Medical Council"],
+      name: "🏥 Healthcare",
+      organizations: [
+        "Health Ministry",
+        "Public Health Department",
+        "Medical Council",
+        "District Health Board",
+        "National Immunization Program",
+        "Pharmaceutical Regulatory Board",
+        "Private Hospital Association",
+        "Government Hospitals Authority",
+        "Ayurveda and Homeopathy Council",
+        "Community Health Centers",
+      ],
     },
     {
-      id: "telecom",
-      name: "📞 Telecom & Internet Issues",
-      organizations: ["Telecom Regulatory Authority", "Internet Service Providers", "Mobile Network Operators"],
-    },
-    {
-      id: "waste",
-      name: "🧹 Garbage & Waste Management",
-      organizations: ["Sanitation Department", "Waste Management Authority", "Recycling Centers"],
-    },
-    {
-      id: "government",
-      name: "🗳️ Government Schemes & Subsidies",
-      organizations: ["Social Welfare Department", "Rural Development", "Urban Development"],
-    },
-    {
-      id: "housing",
-      name: "🏡 Housing & Property Issues",
-      organizations: ["Housing Authority", "Real Estate Regulatory", "Urban Housing Department"],
+      id: "transportation",
+      name: "🚌 Transportation & Traffic",
+      organizations: [
+        "Traffic Control Authority",
+        "Public Transport Department",
+        "Road Safety Board",
+        "Highway Patrol",
+        "Metro Rail Authority",
+        "Transport Planning Board",
+        "Taxi and Auto Association",
+        "Rural Transport Development Board",
+        "Transport Regulatory Authority",
+        "Urban Transport Commission",
+      ],
     },
     {
       id: "environment",
-      name: "🌳 Environmental Concerns",
-      organizations: ["Environmental Protection Agency", "Pollution Control Board", "Forest Department"],
+      name: "🌱 Environmental Protection",
+      organizations: [
+        "Environmental Protection Agency",
+        "Pollution Control Board",
+        "Forest Conservation Authority",
+        "Wildlife Protection Agency",
+        "Climate Change Mitigation Board",
+        "Waste Management Council",
+        "Sustainable Development Board",
+        "Natural Resource Management Authority",
+        "Coastal Zone Management Board",
+        "Eco-Tourism Development Board",
+      ],
     },
     {
-      id: "rights",
-      name: "⚖️ Human Rights Violations",
-      organizations: ["Human Rights Commission", "Legal Aid Services", "Civil Rights Organizations"],
+      id: "law",
+      name: "⚖ Law & Order",
+      organizations: [
+        "Police Department",
+        "Judiciary Council",
+        "Crime Investigation Bureau",
+        "Human Rights Commission",
+        "Anti-Corruption Bureau",
+        "Legal Aid Authority",
+        "State Security Agency",
+        "Cyber Crime Control Board",
+        "Public Safety Department",
+        "Disaster Management Authority",
+      ],
     },
     {
-      id: "cyber",
-      name: "💬 Cybercrime & Online Harassment",
-      organizations: ["Cyber Cell", "Digital Crime Unit", "IT Security Department"],
+      id: "agriculture",
+      name: "🌾 Agriculture & Farming",
+      organizations: [
+        "Agriculture Department",
+        "Farmers Welfare Board",
+        "Soil Conservation Authority",
+        "Irrigation Development Board",
+        "Fisheries Department",
+        "Livestock Development Council",
+        "Agricultural Marketing Board",
+        "Horticulture Development Authority",
+        "Organic Farming Council",
+        "Agri-Research Institute",
+      ],
     },
     {
-      id: "consumer",
-      name: "📦 Consumer Grievances",
-      organizations: ["Consumer Forum", "Consumer Protection Agency", "Trade Commission"],
+      id: "telecom",
+      name: "📡 Telecommunications",
+      organizations: [
+        "Telecom Regulatory Authority",
+        "Mobile Network Providers Association",
+        "Internet Service Providers Council",
+        "Broadcasting Board",
+        "Cable Operators Authority",
+        "5G Development Board",
+        "Data Protection Agency",
+        "Telecom Infrastructure Authority",
+        "Customer Grievance Cell",
+        "Telecom Research Institute",
+      ],
     },
     {
-      id: "corruption",
-      name: "💰 Corruption & Fraud",
-      organizations: ["Anti-Corruption Bureau", "Vigilance Department", "Ombudsman Office"],
+      id: "finance",
+      name: "💰 Finance & Banking",
+      organizations: [
+        "Reserve Bank",
+        "Finance Ministry",
+        "Insurance Regulatory Authority",
+        "Stock Exchange Board",
+        "Income Tax Department",
+        "National Pension Scheme Authority",
+        "Banking Ombudsman",
+        "Microfinance Development Board",
+        "Loan Recovery Authority",
+        "Credit Rating Agency",
+      ],
     },
     {
-      id: "gender",
-      name: "👩‍🎓 Gender-Based Violence & Harassment",
-      organizations: ["Women's Commission", "Gender Equality Cell", "Protection Officers"],
+      id: "housing",
+      name: "🏡 Housing & Urban Development",
+      organizations: [
+        "Housing Board",
+        "Urban Development Authority",
+        "Slum Redevelopment Board",
+        "Town Planning Department",
+        "Affordable Housing Authority",
+        "Housing Finance Corporation",
+        "Smart City Development Authority",
+        "State Housing Council",
+        "Land Acquisition Board",
+        "Urban Renewal Mission",
+      ],
     },
     {
-      id: "child",
-      name: "🧒 Child Safety & Protection",
-      organizations: ["Child Welfare Committee", "Child Protection Services", "Juvenile Justice Board"],
-    },
-    {
-      id: "senior",
-      name: "👴 Senior Citizen Issues",
-      organizations: ["Elder Care Services", "Senior Citizen Welfare", "Retirement Homes Regulation"],
-    },
-    {
-      id: "animal",
-      name: "🐾 Animal Cruelty & Abuse",
-      organizations: ["Animal Welfare Board", "SPCA", "Wildlife Protection Authority"],
-    },
-    {
-      id: "stray",
-      name: "🐶 Stray Animal Management",
-      organizations: ["Municipal Animal Control", "Animal Welfare NGOs", "Veterinary Services"],
-    },
-    {
-      id: "cattle",
-      name: "🐮 Cattle Issues",
-      organizations: ["Cattle Protection", "Dairy Department", "Animal Husbandry"],
-    },
-    {
-      id: "wildlife",
-      name: "🦅 Wildlife Protection & Illegal Poaching",
-      organizations: ["Wildlife Department", "Forest Rangers", "Conservation NGOs"],
-    },
-    {
-      id: "veterinary",
-      name: "🏥 Veterinary Services & Animal Welfare",
-      organizations: ["Veterinary Department", "Animal Hospitals", "Pet Care Services"],
-    },
-    {
-      id: "trafficking",
-      name: "🚫 Illegal Animal Trafficking",
-      organizations: ["Wildlife Crime Control Bureau", "Forest Department", "Border Security"],
-    },
-    {
-      id: "waste-animals",
-      name: "♻️ Waste Disposal Impacting Animals",
-      organizations: ["Environmental Protection", "Waste Management", "Wildlife Conservation"],
-    },
-    {
-      id: "other",
-      name: "📝 Other General Complaints",
-      organizations: ["General Administration", "Public Grievance Cell", "Citizen Services"],
+      id: "labour",
+      name: "👷 Labour & Employment",
+      organizations: [
+        "Labour Department",
+        "Employment Exchange Board",
+        "Industrial Relations Authority",
+        "Skill Development Council",
+        "Labour Welfare Board",
+        "Workers Union Federation",
+        "Contract Labour Regulation Board",
+        "Factories and Boilers Department",
+        "Minimum Wages Commission",
+        "Employee Provident Fund Authority",
+      ],
     },
   ]
 
@@ -239,6 +324,16 @@ export default function ComplaintForm() {
     setComplaintId("")
     setAiValidation(null)
     setValidationStep(null)
+    setIsCopied(false)
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(complaintId).then(() => {
+      setIsCopied(true)
+      setTimeout(() => {
+        setIsCopied(false)
+      }, 2000)
+    })
   }
 
   const selectedCategory = categories.find((c) => c.id === formData.category)
@@ -260,8 +355,16 @@ export default function ComplaintForm() {
                 <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
                   Your complaint has been submitted successfully. Please save your complaint ID for tracking.
                 </p>
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md mb-6">
-                  <p className="text-xl font-mono font-bold text-center text-black dark:text-white">{complaintId}</p>
+                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md mb-6 flex items-center justify-center relative">
+                  <p className="text-xl font-mono font-bold text-black dark:text-white">{complaintId}</p>
+                  <button
+                    onClick={handleCopy}
+                    className={`absolute right-4 px-2 py-1 bg-gray-300 dark:bg-gray-600 text-black dark:text-white rounded-md transition-transform duration-200 ${
+                      isCopied ? "transform translate-x-2" : ""
+                    }`}
+                  >
+                    {isCopied ? "Copied" : "Copy"}
+                  </button>
                 </div>
                 <button
                   onClick={resetForm}
@@ -280,7 +383,7 @@ export default function ComplaintForm() {
 
                     <div className="space-y-4">
                       <div className="flex items-center">
-                        <div className={`mr-3 ${validationStep === "text" ? "animate-spin" : ""}`}>
+                        <div className={mr-3 ${validationStep === "text" ? "animate-spin" : ""}}>
                           {validationStep === "text" ? (
                             <Loader className="h-5 w-5 text-blue-500 dark:text-blue-300" />
                           ) : validationStep === "media" || validationStep === "doc" || aiValidation === "validated" ? (
@@ -310,7 +413,7 @@ export default function ComplaintForm() {
                       </div>
 
                       <div className="flex items-center">
-                        <div className={`mr-3 ${validationStep === "media" ? "animate-spin" : ""}`}>
+                        <div className={mr-3 ${validationStep === "media" ? "animate-spin" : ""}}>
                           {validationStep === "media" ? (
                             <Loader className="h-5 w-5 text-blue-500 dark:text-blue-300" />
                           ) : validationStep === "doc" || aiValidation === "validated" ? (
@@ -340,7 +443,7 @@ export default function ComplaintForm() {
                       </div>
 
                       <div className="flex items-center">
-                        <div className={`mr-3 ${validationStep === "doc" ? "animate-spin" : ""}`}>
+                        <div className={mr-3 ${validationStep === "doc" ? "animate-spin" : ""}}>
                           {validationStep === "doc" ? (
                             <Loader className="h-5 w-5 text-blue-500 dark:text-blue-300" />
                           ) : aiValidation === "validated" ? (
@@ -471,7 +574,7 @@ export default function ComplaintForm() {
                               className="sr-only"
                               multiple
                               onChange={handleFileChange}
-                              accept="image/*, video/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                              accept="image/, video/, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                             />
                           </label>
                           <p className="pl-1">or drag and drop</p>
@@ -568,4 +671,3 @@ export default function ComplaintForm() {
     </section>
   )
 }
-
