@@ -9,9 +9,12 @@ CRP is a secure and anonymous grievance redressal portal designed for college ca
   <img src="./crp.png" alt="CRP Logo" width="200"/>
 </p>
 
-![MERN Stack](https://img.shields.io/badge/stack-MERN-green)
-![Status](https://img.shields.io/badge/status-In%20Development-orange)
----
+
+<p align="center">
+  <img src="https://img.shields.io/badge/stack-MERN-green" alt="Stack Badge"/>
+  <img src="https://img.shields.io/badge/status-In%20Development-orange" alt="Status Badge"/>
+</p>
+
 
 ## 🚀 Features
 
