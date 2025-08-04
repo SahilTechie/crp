@@ -50,6 +50,85 @@ Built using the **MERN** stack:
 - **React.js** – Frontend user interface  
 - **Node.js** – Backend server logic
 
+### Frontend Technologies
+- **React 18** with TypeScript
+- **Vite** for fast development
+- **Tailwind CSS** for styling
+- **Lucide React** for icons
+- **React Context** for state management
+
+### Backend Technologies
+- **Node.js** with Express
+- **MongoDB** with Mongoose ODM
+- **JWT** for authentication
+- **bcryptjs** for password hashing
+- **Express-validator** for input validation
+- **CORS** and **Helmet** for security
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or cloud instance)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd Campus-Resolve-Portal-CRP-
+   ```
+
+2. **Install frontend dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Install backend dependencies:**
+   ```bash
+   cd backend
+   npm install
+   cd ..
+   ```
+
+4. **Set up MongoDB:**
+   - Install MongoDB locally, or
+   - Use MongoDB Atlas (cloud)
+   - Update `backend/config.env` with your MongoDB URI
+
+5. **Start the development servers:**
+
+   **Option 1: Use the provided script (Windows)**
+   ```bash
+   # Run the batch file
+   start-dev.bat
+   
+   # Or run the PowerShell script
+   .\start-dev.ps1
+   ```
+
+   **Option 2: Start manually**
+   ```bash
+   # Terminal 1 - Start backend
+   cd backend
+   npm run dev
+   
+   # Terminal 2 - Start frontend
+   npm run dev
+   ```
+
+6. **Access the application:**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:5000
+   - API Health Check: http://localhost:5000/api/health
+
+### Default Admin Credentials
+- **Email:** smallelw@gitam.in
+- **Password:** Smdmnd@009
+
 ---
 
 ## 🌐 Future Scope

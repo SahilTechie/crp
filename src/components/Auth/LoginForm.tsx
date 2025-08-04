@@ -100,26 +100,6 @@ export const LoginForm: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 backdrop-blur-sm bg-opacity-95 animate-slide-up">
-          {/* Demo Credentials */}
-          {!isSignUp && (
-            <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 animate-fade-in delay-300">
-              <h4 className="text-sm font-semibold text-blue-800 mb-3 flex items-center">
-                <Sparkles className="h-4 w-4 mr-2" />
-                Demo Credentials:
-              </h4>
-              <div className="text-xs text-blue-700 space-y-2">
-                <div className="flex items-center justify-between p-2 bg-white rounded-lg">
-                  <span><strong>Student:</strong> student@college.edu</span>
-                  <span className="text-gray-500">password123</span>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-white rounded-lg">
-                  <span><strong>Admin:</strong> admin@college.edu</span>
-                  <span className="text-gray-500">admin123</span>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Security Notice */}
           <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200 animate-fade-in delay-500">
             <div className="flex items-center space-x-2 mb-2">
@@ -269,42 +249,6 @@ export const LoginForm: React.FC = () => {
           </p>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slide-up {
-          from { opacity: 0; transform: translateY(50px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slide-down {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-5px); }
-          75% { transform: translateX(5px); }
-        }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
-        .animate-slide-up { animation: slide-up 0.8s ease-out forwards; }
-        .animate-slide-down { animation: slide-down 0.4s ease-out forwards; }
-        .animate-shake { animation: shake 0.5s ease-in-out; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-500 { animation-delay: 0.5s; }
-        .delay-600 { animation-delay: 0.6s; }
-        .delay-800 { animation-delay: 0.8s; }
-        .delay-1000 { animation-delay: 1s; }
-        .delay-1500 { animation-delay: 1.5s; }
-        .delay-2000 { animation-delay: 2s; }
-      `}</style>
     </div>
   );
 };

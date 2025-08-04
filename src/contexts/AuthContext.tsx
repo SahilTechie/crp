@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '../types';
+import apiService from '../services/api';
 
 interface AuthContextType {
   user: User | null;
@@ -26,40 +27,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check for existing JWT token in localStorage
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      try {
-        // In a real app, you'd validate the token with your backend
-        const savedUser = localStorage.getItem('user');
-        if (savedUser) {
-          const userData = JSON.parse(savedUser);
-          
-          // Update user data with latest profile info from registered users
-          const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-          const updatedUserData = registeredUsers.find((u: any) => u.email === userData.email);
-          if (updatedUserData) {
-            userData.name = updatedUserData.name;
-            userData.avatar = updatedUserData.avatar;
-          }
-          
-          // Check if token is expired (simplified check)
-          const tokenData = JSON.parse(atob(token.split('.')[1]));
-          if (tokenData.exp * 1000 > Date.now()) {
-            setUser(userData);
+    const checkAuth = async () => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        try {
+          const response = await apiService.getProfile();
+          if (response.success && response.data?.user) {
+            setUser(response.data.user);
           } else {
-            // Token expired, clear storage
+            // Invalid token, clear storage
             localStorage.removeItem('authToken');
             localStorage.removeItem('user');
           }
+        } catch (error) {
+          console.error('Auth check failed:', error);
+          // Invalid token, clear storage
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
         }
-      } catch (error) {
-        // Invalid token, clear storage
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('user');
       }
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -67,46 +57,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
     
     try {
-      // Simulate API call with proper validation
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await apiService.login(email, password);
       
-      // Validate credentials (in real app, this would be done on backend)
-      const validCredentials = [
-        { email: 'admin@college.edu', password: 'admin123', role: 'admin', name: 'Admin User' },
-        { email: 'student@college.edu', password: 'password123', role: 'student', name: 'John Doe' }
-      ];
-      
-      // Check for registered users in localStorage
-      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-      const allValidCredentials = [...validCredentials, ...registeredUsers];
-      
-      const user = allValidCredentials.find(cred => cred.email === email && cred.password === password);
-      
-      if (!user) {
-        throw new Error('Invalid email or password');
+      if (response.success && response.data) {
+        const { user, token } = response.data;
+        
+        setUser(user);
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('user', JSON.stringify(user));
+      } else {
+        throw new Error(response.message || 'Login failed');
       }
-      
-      // Create mock JWT token (in real app, this comes from backend)
-      const mockToken = btoa(JSON.stringify({
-        userId: Date.now().toString(),
-        email: user.email,
-        role: user.role,
-        exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
-      }));
-      
-      const mockUser: User = {
-        id: Date.now().toString(),
-        name: user.name,
-        email: user.email,
-        role: user.role as 'student' | 'admin',
-        avatar: user.avatar || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2'
-      };
-      
-      setUser(mockUser);
-      localStorage.setItem('authToken', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockUser));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      setError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
@@ -118,49 +82,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
     
     try {
-      // Simulate API call for registration
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await apiService.register(name, email, password, role);
       
-      // Check if user already exists
-      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-      const existingUser = registeredUsers.find((u: any) => u.email === email);
-      
-      if (existingUser) {
-        throw new Error('User with this email already exists');
+      if (response.success && response.data) {
+        const { user, token } = response.data;
+        
+        setUser(user);
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('user', JSON.stringify(user));
+      } else {
+        throw new Error(response.message || 'Registration failed');
       }
-      
-      // Create new user and save to localStorage
-      const newUserData = {
-        name,
-        email,
-        password,
-        role,
-        avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2'
-      };
-      
-      registeredUsers.push(newUserData);
-      localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-      
-      const mockToken = btoa(JSON.stringify({
-        userId: Date.now().toString(),
-        email,
-        role,
-        exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
-      }));
-      
-      const newUser: User = {
-        id: Date.now().toString(),
-        name,
-        email,
-        role,
-        avatar: newUserData.avatar
-      };
-      
-      setUser(newUser);
-      localStorage.setItem('authToken', mockToken);
-      localStorage.setItem('user', JSON.stringify(newUser));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+      setError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
@@ -171,16 +106,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!user) return;
     
     try {
-      const updatedUser = { ...user, ...updates };
-      setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      const response = await apiService.updateProfile(updates);
       
-      // Update in registered users list if exists
-      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-      const userIndex = registeredUsers.findIndex((u: any) => u.email === user.email);
-      if (userIndex !== -1) {
-        registeredUsers[userIndex] = { ...registeredUsers[userIndex], ...updates };
-        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+      if (response.success && response.data?.user) {
+        const updatedUser = response.data.user;
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      } else {
+        throw new Error(response.message || 'Profile update failed');
       }
     } catch (error) {
       console.error('Failed to update profile:', error);
