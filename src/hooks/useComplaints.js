@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Complaint } from '../types';
 
 export const useComplaints = () => {
-  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [complaints, setComplaints] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -32,8 +31,8 @@ export const useComplaints = () => {
     loadComplaints();
   }, []);
 
-  const addComplaint = (complaint: Omit<Complaint, 'id' | 'submittedAt'>) => {
-    const newComplaint: Complaint = {
+  const addComplaint = (complaint) => {
+    const newComplaint = {
       ...complaint,
       id: Date.now().toString(),
       submittedAt: new Date().toISOString(),
@@ -45,7 +44,7 @@ export const useComplaints = () => {
     localStorage.setItem('complaints', JSON.stringify(updatedComplaints));
   };
 
-  const updateComplaint = (id: string, updates: Partial<Complaint>) => {
+  const updateComplaint = (id, updates) => {
     setComplaints(prev => {
       const updated = prev.map(complaint => 
         complaint.id === id ? { ...complaint, ...updates } : complaint
@@ -63,4 +62,4 @@ export const useComplaints = () => {
     addComplaint,
     updateComplaint
   };
-};
+}; 

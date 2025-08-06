@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Search, Filter, Users, Clock, CheckCircle, AlertTriangle, TrendingUp, BarChart3, MessageSquare, Save, X, Eye, FileText, Mic, Video, Image } from 'lucide-react';
-import { useComplaints } from '../../hooks/useComplaints';
-import { useNotifications } from '../../hooks/useNotifications';
+import { useComplaints } from '../../hooks/useComplaints.js';
+import { useNotifications } from '../../hooks/useNotifications.js';
 import { ComplaintCard } from './ComplaintCard';
 import { AnalyticsCard } from './AnalyticsCard';
-import { Complaint } from '../../types';
 
-export const AdminDashboard: React.FC = () => {
+export const AdminDashboard = () => {
   const { complaints, isLoading, updateComplaint } = useComplaints();
   const { addNotification } = useNotifications();
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,10 +14,10 @@ export const AdminDashboard: React.FC = () => {
   const [showAnalytics, setShowAnalytics] = useState(true);
   const [showResolutionModal, setShowResolutionModal] = useState(false);
   const [showAttachmentsModal, setShowAttachmentsModal] = useState(false);
-  const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
-  const [selectedAttachments, setSelectedAttachments] = useState<string[]>([]);
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [selectedAttachments, setSelectedAttachments] = useState([]);
   const [resolutionData, setResolutionData] = useState({
-    status: 'resolved' as Complaint['status'],
+    status: 'resolved',
     actionTaken: '',
     adminComment: ''
   });
@@ -40,13 +39,13 @@ export const AdminDashboard: React.FC = () => {
     const categories = complaints.reduce((acc, complaint) => {
       acc[complaint.category] = (acc[complaint.category] || 0) + 1;
       return acc;
-    }, {} as Record<string, number>);
+    }, {});
 
     const resolvedComplaints = complaints.filter(c => c.status === 'resolved' && c.resolvedAt);
     const averageResolutionTime = resolvedComplaints.length > 0 
       ? resolvedComplaints.reduce((sum, complaint) => {
           const submitted = new Date(complaint.submittedAt);
-          const resolved = new Date(complaint.resolvedAt!);
+          const resolved = new Date(complaint.resolvedAt);
           return sum + (resolved.getTime() - submitted.getTime());
         }, 0) / resolvedComplaints.length / (1000 * 60 * 60 * 24) // Convert to days
       : 0;
@@ -65,20 +64,20 @@ export const AdminDashboard: React.FC = () => {
   const analytics = getAnalytics();
   const categories = [...new Set(complaints.map(c => c.category))];
 
-  const handleStatusChange = (id: string, status: string) => {
+  const handleStatusChange = (id, status) => {
     const complaint = complaints.find(c => c.id === id);
     if (!complaint) return;
 
     if (status === 'resolved' || status === 'rejected') {
       setSelectedComplaint(complaint);
       setResolutionData({
-        status: status as Complaint['status'],
+        status: status,
         actionTaken: '',
         adminComment: ''
       });
       setShowResolutionModal(true);
     } else {
-      updateComplaint(id, { status: status as any });
+      updateComplaint(id, { status: status });
       
       // Add notification for status change
       addNotification({
@@ -94,7 +93,7 @@ export const AdminDashboard: React.FC = () => {
   const handleResolutionSubmit = () => {
     if (!selectedComplaint) return;
 
-    const updates: Partial<Complaint> = {
+    const updates = {
       status: resolutionData.status,
       resolutionNotes: `Action Taken: ${resolutionData.actionTaken}\n\nAdmin Comment: ${resolutionData.adminComment}`,
       ...(resolutionData.status === 'resolved' ? { resolvedAt: new Date().toISOString() } : {})
@@ -116,12 +115,12 @@ export const AdminDashboard: React.FC = () => {
     setResolutionData({ status: 'resolved', actionTaken: '', adminComment: '' });
   };
 
-  const handleViewAttachments = (attachments: string[]) => {
+  const handleViewAttachments = (attachments) => {
     setSelectedAttachments(attachments);
     setShowAttachmentsModal(true);
   };
 
-  const downloadAttachment = (fileName: string) => {
+  const downloadAttachment = (fileName) => {
     // Get the file from localStorage (for demo purposes)
     const attachmentData = localStorage.getItem(`attachment_${fileName}`);
     
@@ -154,7 +153,7 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  const getFileIcon = (fileName: string) => {
+  const getFileIcon = (fileName) => {
     const extension = fileName.split('.').pop()?.toLowerCase();
     if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(extension || '')) {
       return <Image className="h-5 w-5 text-blue-500" />;
@@ -445,39 +444,45 @@ export const AdminDashboard: React.FC = () => {
                       const attachmentData = localStorage.getItem(`attachment_${attachment}`);
                       
                       if (attachmentData && attachmentData.startsWith('data:image/')) {
-                        <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
-                          <img 
-                            src={attachmentData} 
-                            alt="Attachment preview" 
-                            className="max-w-full max-h-48 mx-auto rounded"
-                          />
-                          <p className="text-sm text-gray-600 mt-2">Image Preview</p>
-                        </div>
+                        return (
+                          <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
+                            <img 
+                              src={attachmentData} 
+                              alt="Attachment preview" 
+                              className="max-w-full max-h-48 mx-auto rounded"
+                            />
+                            <p className="text-sm text-gray-600 mt-2">Image Preview</p>
+                          </div>
+                        );
                       } else if (attachmentData && attachmentData.startsWith('data:video/')) {
-                        <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
-                          <video 
-                            src={attachmentData} 
-                            controls 
-                            className="w-full max-h-48 rounded"
-                            preload="metadata"
-                          >
-                            Your browser does not support video playback.
-                          </video>
-                          <p className="text-sm text-gray-600 mt-2">Video File</p>
-                        </div>
+                        return (
+                          <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
+                            <video 
+                              src={attachmentData} 
+                              controls 
+                              className="w-full max-h-48 rounded"
+                              preload="metadata"
+                            >
+                              Your browser does not support video playback.
+                            </video>
+                            <p className="text-sm text-gray-600 mt-2">Video File</p>
+                          </div>
+                        );
                       } else if (attachmentData && attachmentData.startsWith('data:audio/')) {
-                        <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
-                          <Mic className="h-16 w-16 text-gray-400 mx-auto mb-2" />
-                          <audio 
-                            src={attachmentData} 
-                            controls 
-                            className="w-full mt-2"
-                            preload="metadata"
-                          >
-                            Your browser does not support audio playback.
-                          </audio>
-                          <p className="text-sm text-gray-600 mt-2">Audio Recording</p>
-                        </div>
+                        return (
+                          <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
+                            <Mic className="h-16 w-16 text-gray-400 mx-auto mb-2" />
+                            <audio 
+                              src={attachmentData} 
+                              controls 
+                              className="w-full mt-2"
+                              preload="metadata"
+                            >
+                              Your browser does not support audio playback.
+                            </audio>
+                            <p className="text-sm text-gray-600 mt-2">Audio Recording</p>
+                          </div>
+                        );
                       } else {
                         return (
                           <div className="bg-gray-100 rounded-lg p-4 text-center mb-3">
@@ -570,7 +575,7 @@ export const AdminDashboard: React.FC = () => {
                       type="radio"
                       value="resolved"
                       checked={resolutionData.status === 'resolved'}
-                      onChange={(e) => setResolutionData(prev => ({ ...prev, status: e.target.value as any }))}
+                      onChange={(e) => setResolutionData(prev => ({ ...prev, status: e.target.value }))}
                       className="mr-2"
                     />
                     <span className="text-green-700 font-medium">Resolved</span>
@@ -580,10 +585,14 @@ export const AdminDashboard: React.FC = () => {
                       type="radio"
                       value="rejected"
                       checked={resolutionData.status === 'rejected'}
-                      onChange={(e) => setResolutionData(prev => ({ ...prev, status: e.target.value as any }))}
+                      onChange={(e) => setResolutionData(prev => ({ ...prev, status: e.target.value }))}
                       className="mr-2"
                     />
                     <span className="text-red-700 font-medium">Rejected</span>
+                  </label>
+                </div>
+              </div>
+
               {/* Action Taken */}
               <div>
                 <label htmlFor="actionTaken" className="block text-sm font-medium text-gray-700 mb-2">
@@ -599,7 +608,7 @@ export const AdminDashboard: React.FC = () => {
                   required
                 />
               </div>
-                  </label>
+
               {/* Admin Comment */}
               <div>
                 <label htmlFor="adminComment" className="block text-sm font-medium text-gray-700 mb-2">
@@ -614,7 +623,7 @@ export const AdminDashboard: React.FC = () => {
                   placeholder="Additional comments, explanations, or next steps for the complainant..."
                 />
               </div>
-                </div>
+
               {/* Complaint Details */}
               <div className="bg-gray-50 rounded-lg p-4">
                 <h4 className="font-medium text-gray-900 mb-2">Complaint Details</h4>
@@ -629,7 +638,7 @@ export const AdminDashboard: React.FC = () => {
                 </p>
               </div>
             </div>
-              </div>
+
             <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
               <button
                 onClick={() => setShowResolutionModal(false)}
@@ -651,4 +660,4 @@ export const AdminDashboard: React.FC = () => {
       )}
     </div>
   );
-};
+}; 

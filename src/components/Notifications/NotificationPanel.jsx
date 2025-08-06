@@ -1,16 +1,7 @@
 import React from 'react';
 import { X, Bell, CheckCircle, AlertCircle, Clock, Info } from 'lucide-react';
-import { Notification } from '../../types';
 
-interface NotificationPanelProps {
-  isOpen: boolean;
-  onClose: () => void;
-  notifications: Notification[];
-  onMarkAsRead: (id: string) => void;
-  onMarkAllAsRead: () => void;
-}
-
-export const NotificationPanel: React.FC<NotificationPanelProps> = ({
+export const NotificationPanel = ({
   isOpen,
   onClose,
   notifications,
@@ -19,7 +10,7 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const getNotificationIcon = (type: Notification['type']) => {
+  const getNotificationIcon = (type) => {
     switch (type) {
       case 'success': return <CheckCircle className="h-5 w-5 text-green-500" />;
       case 'warning': return <AlertCircle className="h-5 w-5 text-yellow-500" />;
@@ -121,4 +112,4 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
       </div>
     </div>
   );
-};
+}; 

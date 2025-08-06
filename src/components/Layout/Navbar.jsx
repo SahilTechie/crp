@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { Menu, X, Bell, User, LogOut, Home, FileText, BarChart3, Settings } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNotifications } from '../../hooks/useNotifications';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+import { useNotifications } from '../../hooks/useNotifications.js';
 import { NotificationPanel } from '../Notifications/NotificationPanel';
 import { ProfileModal } from '../Profile/ProfileModal';
 
-interface NavbarProps {
-  currentPage: string;
-  onPageChange: (page: string) => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
+export const Navbar = ({ currentPage, onPageChange }) => {
   const { user, logout } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -225,4 +220,4 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => 
       />
     </nav>
   );
-};
+}; 

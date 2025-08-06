@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Notification } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
 export const useNotifications = () => {
   const { user } = useAuth();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export const useNotifications = () => {
         setNotifications(JSON.parse(savedNotifications));
       } else {
         // Create some sample notifications for demo
-        const sampleNotifications: Notification[] = [
+        const sampleNotifications = [
           {
             id: '1',
             title: 'Welcome to Campus Resolve Portal',
@@ -53,8 +52,8 @@ export const useNotifications = () => {
     }
   };
 
-  const addNotification = (notification: Omit<Notification, 'id' | 'timestamp'>) => {
-    const newNotification: Notification = {
+  const addNotification = (notification) => {
+    const newNotification = {
       ...notification,
       id: Date.now().toString(),
       timestamp: new Date().toISOString(),
@@ -67,7 +66,7 @@ export const useNotifications = () => {
     });
   };
 
-  const markAsRead = (id: string) => {
+  const markAsRead = (id) => {
     setNotifications(prev => {
       const updated = prev.map(notification =>
         notification.id === id ? { ...notification, read: true } : notification
@@ -95,4 +94,4 @@ export const useNotifications = () => {
     markAsRead,
     markAllAsRead
   };
-};
+}; 

@@ -1,11 +1,7 @@
 import React from 'react';
 import { Shield, Users, Clock, Award, CheckCircle, ArrowLeft } from 'lucide-react';
 
-interface AboutPageProps {
-  onBack: () => void;
-}
-
-export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
+export const AboutPage = ({ onBack }) => {
   const features = [
     {
       icon: Shield,
@@ -216,4 +212,4 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
       </div>
     </div>
   );
-};
+}; 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Plus, Search, Filter, FileText, Clock, CheckCircle, AlertCircle, XCircle, Bell, Shield, TrendingUp } from 'lucide-react';
-import { useComplaints } from '../../hooks/useComplaints';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNotifications } from '../../hooks/useNotifications';
+import { useComplaints } from '../../hooks/useComplaints.js';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+import { useNotifications } from '../../hooks/useNotifications.js';
 import { ComplaintCard } from './ComplaintCard';
 import { AnalyticsCard } from './AnalyticsCard';
 
-export const UserDashboard: React.FC = () => {
+export const UserDashboard = () => {
   const { complaints, isLoading } = useComplaints();
   const { user } = useAuth();
   const { addNotification } = useNotifications();
@@ -255,4 +255,4 @@ export const UserDashboard: React.FC = () => {
       </div>
     </div>
   );
-};
+}; 

@@ -4,6 +4,7 @@ import { LoginForm } from './components/Auth/LoginForm';
 import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
 import { LandingPage } from './components/Home/LandingPage';
+import { AboutPage } from './components/About/AboutPage';
 import { UserDashboard } from './components/Dashboard/UserDashboard';
 import { AdminDashboard } from './components/Dashboard/AdminDashboard';
 import { ComplaintForm } from './components/Complaints/ComplaintForm';
@@ -95,4 +96,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 

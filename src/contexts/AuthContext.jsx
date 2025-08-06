@@ -1,17 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '../types';
-import apiService from '../services/api';
+import apiService from '../services/api.js';
 
-interface AuthContextType {
-  user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string, role?: 'student' | 'admin') => Promise<void>;
-  logout: () => void;
-  isLoading: boolean;
-  error: string | null;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -21,10 +11,10 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
     
@@ -77,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const register = async (name: string, email: string, password: string, role: 'student' | 'admin' = 'student') => {
+  const register = async (name, email, password, role = 'student') => {
     setIsLoading(true);
     setError(null);
     
@@ -102,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const updateProfile = async (updates: Partial<User>) => {
+  const updateProfile = async (updates) => {
     if (!user) return;
     
     try {
@@ -133,4 +123,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       {children}
     </AuthContext.Provider>
   );
-};
+}; 

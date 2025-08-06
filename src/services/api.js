@@ -1,17 +1,7 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-interface ApiResponse<T = any> {
-  success: boolean;
-  message: string;
-  data?: T;
-  errors?: any[];
-}
-
 class ApiService {
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
     
     const defaultHeaders = {
@@ -24,7 +14,7 @@ class ApiService {
       defaultHeaders['Authorization'] = `Bearer ${token}`;
     }
 
-    const config: RequestInit = {
+    const config = {
       ...options,
       headers: {
         ...defaultHeaders,
@@ -48,14 +38,14 @@ class ApiService {
   }
 
   // Auth endpoints
-  async login(email: string, password: string) {
+  async login(email, password) {
     return this.request('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
   }
 
-  async register(name: string, email: string, password: string, role: 'student' | 'admin' = 'student') {
+  async register(name, email, password, role = 'student') {
     return this.request('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ name, email, password, role }),
@@ -66,7 +56,7 @@ class ApiService {
     return this.request('/auth/me');
   }
 
-  async updateProfile(updates: { name?: string; avatar?: string }) {
+  async updateProfile(updates) {
     return this.request('/auth/profile', {
       method: 'PUT',
       body: JSON.stringify(updates),
@@ -78,7 +68,7 @@ class ApiService {
     return this.request('/auth/users');
   }
 
-  async deleteUser(userId: string) {
+  async deleteUser(userId) {
     return this.request(`/auth/users/${userId}`, {
       method: 'DELETE',
     });

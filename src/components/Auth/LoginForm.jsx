@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, AlertCircle, Shield, Sparkles, Quote } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext.jsx';
 
-export const LoginForm: React.FC = () => {
+export const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +13,7 @@ export const LoginForm: React.FC = () => {
   const [isBlocked, setIsBlocked] = useState(false);
   const { login, register, isLoading, error } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLocalError('');
     
@@ -251,4 +251,4 @@ export const LoginForm: React.FC = () => {
       </div>
     </div>
   );
-};
+}; 

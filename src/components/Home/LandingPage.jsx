@@ -1,12 +1,7 @@
 import React from 'react';
 import { Shield, Clock, Bell, BarChart3, Users, CheckCircle, ArrowRight, Star } from 'lucide-react';
 
-interface LandingPageProps {
-  onGetStarted: () => void;
-  onLearnMore: () => void;
-}
-
-export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted, onLearnMore }) => {
+export const LandingPage = ({ onGetStarted, onLearnMore }) => {
   const features = [
     {
       icon: Shield,
@@ -215,4 +210,4 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted, onLearnM
       </div>
     </div>
   );
-};
+}; 

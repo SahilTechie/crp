@@ -1,16 +1,7 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
-interface AnalyticsCardProps {
-  title: string;
-  value: string | number;
-  change?: number;
-  changeType?: 'increase' | 'decrease' | 'neutral';
-  icon: React.ReactNode;
-  color?: 'blue' | 'green' | 'yellow' | 'red' | 'purple';
-}
-
-export const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
+export const AnalyticsCard = ({
   title,
   value,
   change,
@@ -18,7 +9,7 @@ export const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   icon,
   color = 'blue'
 }) => {
-  const getColorClasses = (color: string) => {
+  const getColorClasses = (color) => {
     switch (color) {
       case 'green':
         return 'bg-green-500 text-white';
@@ -76,4 +67,4 @@ export const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
       </div>
     </div>
   );
-};
+}; 

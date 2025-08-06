@@ -1,23 +1,14 @@
 import React from 'react';
 import { Calendar, User, Tag, AlertCircle, CheckCircle, Clock, XCircle, Paperclip, Eye } from 'lucide-react';
-import { Complaint } from '../../types';
 
-interface ComplaintCardProps {
-  complaint: Complaint;
-  onClick?: () => void;
-  showActions?: boolean;
-  onStatusChange?: (id: string, status: Complaint['status']) => void;
-  onViewAttachments?: (attachments: string[]) => void;
-}
-
-export const ComplaintCard: React.FC<ComplaintCardProps> = ({ 
+export const ComplaintCard = ({ 
   complaint, 
   onClick, 
   showActions = false,
   onStatusChange,
   onViewAttachments
 }) => {
-  const getStatusIcon = (status: Complaint['status']) => {
+  const getStatusIcon = (status) => {
     switch (status) {
       case 'pending': return <Clock className="h-4 w-4" />;
       case 'under-review': return <AlertCircle className="h-4 w-4" />;
@@ -26,7 +17,7 @@ export const ComplaintCard: React.FC<ComplaintCardProps> = ({
     }
   };
 
-  const getStatusColor = (status: Complaint['status']) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'under-review': return 'bg-blue-100 text-blue-800 border-blue-200';
@@ -35,7 +26,7 @@ export const ComplaintCard: React.FC<ComplaintCardProps> = ({
     }
   };
 
-  const getPriorityColor = (priority: Complaint['priority']) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'low': return 'bg-gray-100 text-gray-800';
       case 'medium': return 'bg-yellow-100 text-yellow-800';
@@ -101,7 +92,7 @@ export const ComplaintCard: React.FC<ComplaintCardProps> = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onViewAttachments(complaint.attachments!);
+                onViewAttachments(complaint.attachments);
               }}
               className="flex items-center space-x-1 text-sm text-blue-600 hover:text-blue-700"
             >
@@ -172,4 +163,4 @@ export const ComplaintCard: React.FC<ComplaintCardProps> = ({
       )}
     </div>
   );
-};
+}; 

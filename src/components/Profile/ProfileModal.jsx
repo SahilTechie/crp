@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { X, Camera, Upload, User, Mail, Shield, Save } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext.jsx';
 
-interface ProfileModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
+export const ProfileModal = ({ isOpen, onClose }) => {
   const { user, updateProfile } = useAuth();
   const [isUpdating, setIsUpdating] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,16 +10,16 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     email: user?.email || '',
     avatar: user?.avatar || ''
   });
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   if (!isOpen || !user) return null;
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        const result = event.target?.result as string;
+        const result = event.target?.result;
         setPreviewImage(result);
         setFormData(prev => ({ ...prev, avatar: result }));
       };
@@ -32,7 +27,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
 
@@ -185,4 +180,4 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
       </div>
     </div>
   );
-};
+}; 

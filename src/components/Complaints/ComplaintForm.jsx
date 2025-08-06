@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 import { Upload, Mic, Video, X, FileText, AlertTriangle, User, UserX, Play, Square, Pause, Eye } from 'lucide-react';
-import { useComplaints } from '../../hooks/useComplaints';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNotifications } from '../../hooks/useNotifications';
+import { useComplaints } from '../../hooks/useComplaints.js';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+import { useNotifications } from '../../hooks/useNotifications.js';
 
-interface ComplaintFormProps {
-  onSubmit?: () => void;
-}
-
-interface MediaFile extends File {
-  preview?: string;
-  type: string;
-}
-
-export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
+export const ComplaintForm = ({ onSubmit }) => {
   const { addComplaint } = useComplaints();
   const { user } = useAuth();
   const { addNotification } = useNotifications();
@@ -21,15 +12,15 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
     title: '',
     description: '',
     category: '',
-    priority: 'medium' as const,
+    priority: 'medium',
     isAnonymous: false,
   });
-  const [attachments, setAttachments] = useState<MediaFile[]>([]);
+  const [attachments, setAttachments] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const [recordingType, setRecordingType] = useState<'audio' | 'video' | null>(null);
-  const [previewMedia, setPreviewMedia] = useState<{ file: MediaFile; url: string } | null>(null);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [recordingType, setRecordingType] = useState(null);
+  const [previewMedia, setPreviewMedia] = useState(null);
 
   const categories = [
     'Infrastructure',
@@ -44,7 +35,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
     'Other'
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -85,18 +76,18 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
       const filesWithPreview = newFiles.map(file => {
-        const mediaFile = file as MediaFile;
+        const mediaFile = file;
         if (file.type.startsWith('image/') || file.type.startsWith('video/') || file.type.startsWith('audio/')) {
           mediaFile.preview = URL.createObjectURL(file);
           
           // Store file data for demo purposes (in production, this would be uploaded to server)
           const reader = new FileReader();
           reader.onload = (event) => {
-            const result = event.target?.result as string;
+            const result = event.target?.result;
             localStorage.setItem(`attachment_${file.name}`, result);
           };
           reader.readAsDataURL(file);
@@ -107,7 +98,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
     }
   };
 
-  const removeAttachment = (index: number) => {
+  const removeAttachment = (index) => {
     const fileToRemove = attachments[index];
     if (fileToRemove.preview) {
       URL.revokeObjectURL(fileToRemove.preview);
@@ -115,7 +106,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
     setAttachments(prev => prev.filter((_, i) => i !== index));
   };
 
-  const previewFile = (file: MediaFile) => {
+  const previewFile = (file) => {
     if (file.preview) {
       setPreviewMedia({ file, url: file.preview });
     }
@@ -125,7 +116,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
     setPreviewMedia(null);
   };
 
-  const startRecording = async (type: 'audio' | 'video') => {
+  const startRecording = async (type) => {
     try {
       const constraints = type === 'audio' 
         ? { audio: true, video: false }
@@ -133,11 +124,11 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
       
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       const recorder = new MediaRecorder(stream);
-      const chunks: BlobPart[] = [];
+      const chunks = [];
       
       // For video recording, show live preview
       if (type === 'video') {
-        const videoPreview = document.getElementById('video-preview') as HTMLVideoElement;
+        const videoPreview = document.getElementById('video-preview');
         if (videoPreview) {
           videoPreview.srcObject = stream;
           videoPreview.style.display = 'block';
@@ -157,14 +148,14 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
         const fileName = `recording-${Date.now()}.webm`;
         const file = new File([blob], fileName, {
           type: blob.type
-        }) as MediaFile;
+        });
         
         file.preview = URL.createObjectURL(blob);
         
         // Store recording data for demo purposes
         const reader = new FileReader();
         reader.onload = (event) => {
-          const result = event.target?.result as string;
+          const result = event.target?.result;
           localStorage.setItem(`attachment_${fileName}`, result);
         };
         reader.readAsDataURL(blob);
@@ -175,7 +166,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
         stream.getTracks().forEach(track => track.stop());
         
         // Hide video preview
-        const videoPreview = document.getElementById('video-preview') as HTMLVideoElement;
+        const videoPreview = document.getElementById('video-preview');
         if (videoPreview) {
           videoPreview.style.display = 'none';
           videoPreview.srcObject = null;
@@ -197,7 +188,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
       mediaRecorder.stop();
       
       // Hide video preview
-      const videoPreview = document.getElementById('video-preview') as HTMLVideoElement;
+      const videoPreview = document.getElementById('video-preview');
       if (videoPreview) {
         videoPreview.style.display = 'none';
         videoPreview.srcObject = null;
@@ -293,7 +284,7 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
             <select
               id="priority"
               value={formData.priority}
-              onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as any }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value }))}
               className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             >
               <option value="low">Low</option>
@@ -527,4 +518,4 @@ export const ComplaintForm: React.FC<ComplaintFormProps> = ({ onSubmit }) => {
       )}
     </div>
   );
-};
+}; 
