@@ -1,5 +1,5 @@
-const API_BASE_URL = 'http://localhost:5000/api';
-
+const API_BASE_URL = "https://vercel-backend-crp.onrender.com/api";
+// Use API_BASE_URL in all fetch/axios calls
 class ApiService {
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
