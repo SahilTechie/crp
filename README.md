@@ -17,7 +17,7 @@ CRP is a secure and anonymous grievance redressal portal designed for college ca
 
 ## 🌐 Live Demo
 
-👉 [Campus Resolve Portal - View Live](https://campus-resolve-portal-af34wp151-newp.vercel.app)
+👉 [Campus Resolve Portal - View Live](https://campus-resolve-portal-oi1sx625p-newp.vercel.app)
 
 ## 🚀 Features
 
