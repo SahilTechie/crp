@@ -1,7 +1,7 @@
-# 🏫 CRP – Campus Resolve Portal  
+# 🏫 Campus Resolve Portal (CRP)  
 **Your Voice. Your Right.**
 
-CRP is a secure and anonymous grievance redressal portal designed for college campuses. Built during the 24-hour **CODEMANIA Hackathon** at **BITS Pilani Hyderabad**, it enables students, faculty, and staff to raise issues and track their resolution without revealing identity.
+CRP is a secure, anonymous grievance redressal portal built for college campuses. Developed during the 24-hour **CODEMANIA Hackathon** at **BITS Pilani Hyderabad**, it empowers students, faculty, and staff to raise concerns, track resolutions, and foster accountability.
 
 ---
 
@@ -9,141 +9,140 @@ CRP is a secure and anonymous grievance redressal portal designed for college ca
   <img src="./crp.png" alt="CRP Logo" width="200"/>
 </p>
 
-
 <p align="center">
   <img src="https://img.shields.io/badge/stack-MERN-green" alt="Stack Badge"/>
-  <img src="https://img.shields.io/badge/status-In%20Development-orange" alt="Status Badge"/>
+  <img src="https://img.shields.io/badge/status-%20Deployed-orange" alt="Status Badge"/>
 </p>
 
 ## 🌐 Live Demo
 
-👉 [Campus Resolve Portal - View Live](https://campus-resolve-portal-af34wp151-newp.vercel.app)
+👉 [Campus Resolve Portal - View Live](https://campus-resolve-portal-crp.vercel.app/)
+
+---
 
 ## 🚀 Features
 
-- 📢 **Anonymous Grievance Submission**  
-  Submit complaints without revealing personal information.
+- **Anonymous Grievance Submission**  
+  Submit complaints without revealing your identity.
 
-- 🧾 **Multi-format Input Support**  
-  Raise concerns via text, voice, or even video uploads.
+- **Multi-format Input**  
+  Raise concerns via text, voice, or video uploads.
 
-- 🔄 **Track Complaint Status**  
-  Know when your concern is acknowledged, reviewed, and resolved.
+- **Complaint Status Tracking**  
+  Real-time updates: acknowledged, reviewed, resolved.
 
-- 🔐 **Privacy-Focused**  
-  No user tracking unless voluntarily provided.
+- **Privacy Protection**  
+  No user tracking except what is voluntarily provided.
 
-- 📊 **Admin Dashboard**  
-  Campus officials can manage, review, and resolve grievances.
+- **Admin Dashboard**  
+  Campus officials can manage, review, and resolve grievances efficiently.
 
-- 🔔 **Smart Alerts**  
-  Auto-notifications at every status update.
-
----
-
-## 💻 Tech Stack
-
-Built using the **MERN** stack:
-
-- **MongoDB** – NoSQL database for storing complaints and user data  
-- **Express.js** – Web framework for Node.js  
-- **React.js** – Frontend user interface  
-- **Node.js** – Backend server logic
-
-### Frontend Technologies
-- **React 18** with TypeScript
-- **Vite** for fast development
-- **Tailwind CSS** for styling
-- **Lucide React** for icons
-- **React Context** for state management
-
-### Backend Technologies
-- **Node.js** with Express
-- **MongoDB** with Mongoose ODM
-- **JWT** for authentication
-- **bcryptjs** for password hashing
-- **Express-validator** for input validation
-- **CORS** and **Helmet** for security
+- **Smart Alerts**  
+  Automatic notifications at every status update.
 
 ---
 
-## 🚀 Quick Start
+## 🛠️ Tech Stack
+
+Built with the **MERN** stack:
+
+- **MongoDB** – Flexible NoSQL database for complaints and user data  
+- **Express.js** – Node.js web framework powering the backend  
+- **React.js** – Fast, modern frontend user interface  
+- **Node.js** – Robust backend server logic
+
+### Frontend
+
+- **React 18** + **TypeScript**
+- **Vite** (fast dev server & build)
+- **Tailwind CSS** (utility-first styling)
+- **Lucide React** (icon library)
+- **React Context** (state management)
+
+### Backend
+
+- **Express.js** (Node.js framework)
+- **MongoDB** + **Mongoose**
+- **JWT** (authentication)
+- **bcryptjs** (password hashing)
+- **Express-validator** (input validation)
+- **CORS** & **Helmet** (security best practices)
+
+---
+
+## ⚡ Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (local or cloud instance)
+
+- Node.js (v14+)
+- MongoDB (local or Atlas)
 - npm or yarn
 
 ### Installation
 
-1. **Clone the repository:**
+1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd Campus-Resolve-Portal-CRP-
+   git clone https://github.com/CodeWithUtkarsha/Campus-Resolve-Portal-CRP.git
+   cd Campus-Resolve-Portal-CRP
    ```
 
-2. **Install frontend dependencies:**
+2. **Install frontend dependencies**
    ```bash
    npm install
    ```
 
-3. **Install backend dependencies:**
+3. **Install backend dependencies**
    ```bash
    cd backend
    npm install
    cd ..
    ```
 
-4. **Set up MongoDB:**
+4. **Configure MongoDB**
    - Install MongoDB locally, or
    - Use MongoDB Atlas (cloud)
    - Update `backend/config.env` with your MongoDB URI
 
-5. **Start the development servers:**
+5. **Start development servers**
 
-   **Option 1: Use the provided script (Windows)**
+   **Option 1: Use scripts (Windows)**
    ```bash
-   # Run the batch file
    start-dev.bat
-   
-   # Or run the PowerShell script
+   # or
    .\start-dev.ps1
    ```
 
-   **Option 2: Start manually**
+   **Option 2: Manual start**
    ```bash
-   # Terminal 1 - Start backend
+   # Terminal 1 - Backend
    cd backend
    npm run dev
-   
-   # Terminal 2 - Start frontend
+
+   # Terminal 2 - Frontend
    npm run dev
    ```
 
-6. **Access the application:**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:5000
-   - API Health Check: http://localhost:5000/api/health
 
 ### Default Admin Credentials
+
 - **Email:** smallelw@gitam.in
 - **Password:** Smdmnd@009
 
 ---
 
-## 🌐 Future Scope
+## 🚀 Future Scope
 
-CRP is scalable and can be adapted for:
+CRP is adaptable for:
 
-- 🏢 Corporate feedback and complaint systems  
-- 🏛️ Government department grievance handling  
-- 🏘️ Local communities and NGOs
+- Corporate feedback and complaint systems  
+- Government department grievance portals  
+- Local communities and NGOs
 
 ---
 
-## 🤝 Acknowledgements
+## ✨ Acknowledgements
 
-- [TechXcelerate](https://techxcelerate.in) – Hackathon Organizer  
+- [TechXcelerate](https://techxcelerate.in) – Hackathon Organizers  
 - [BITS Pilani Hyderabad – E-Cell](https://www.bits-pilani.ac.in/hyderabad/)  
 - [BharatVersity](https://www.bharatversity.com)
 
@@ -151,7 +150,13 @@ CRP is scalable and can be adapted for:
 
 ## 📬 Contact
 
-For questions, suggestions, or collaboration opportunities:  
-📧 utkarshasalve90@gmail.com  
-🔗 [LinkedIn – Utkarsha](http://www.linkedin.com/in/utkarsha-salve-253b95259/)
+For questions, suggestions, or collaboration:
 
+📧 utkarsha.v.salve@gmail.com  
+🔗 [LinkedIn – Utkarsha Salve](http://www.linkedin.com/in/utkarsha-salve-253b95259/)
+
+---
+
+<p align="center">
+  <b>Made with ❤️ at CODEMANIA, BITS Pilani Hyderabad</b>
+</p>
