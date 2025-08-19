@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://campusresolveportal-backend.onrender.com/api";
+const API_BASE_URL = "https://back-kp8n.onrender.com/api";
 // Use API_BASE_URL in all fetch/axios calls
 class ApiService {
   async request(endpoint, options = {}) {
